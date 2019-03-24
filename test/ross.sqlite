@@ -1,0 +1,16 @@
+.import test_seed.sqlite GoldMedal;
+
+SELECT sport, COUNT(*) AS sportMedals FROM GoldMedal WHERE country="Slovenia" GROUP BY sport;
+SELECT COUNT(*) FROM GoldMedal WHERE country="Slovenia";
+
+SELECT sport, COUNT(*) AS sportMedals, 100*COUNT(*)/(SELECT COUNT(*) FROM GoldMedal WHERE country="Slovenia") FROM GoldMedal WHERE country="Slovenia" GROUP BY sport;
+
+WITH medals AS (
+  SELECT country, COUNT(*) AS total
+  FROM GoldMedal
+  WHERE country="Slovenia"
+  )
+SELECT sport, COUNT(*), 100*COUNT(*)/medals.total
+FROM GoldMedal
+WHERE country="Slovenia"
+GROUP BY sport;
